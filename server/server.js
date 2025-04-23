@@ -105,6 +105,11 @@ app.post('/api/register', async (req, res) => {
   try {
     const { name, email, password, state, city, recaptchaToken } = req.body;
 
+    // Check if required fields are present
+    if (!name || !email || !password || !state || !city) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
     // Verify reCAPTCHA
     const isHuman = await verifyRecaptcha(recaptchaToken);
     if (!isHuman) {
@@ -136,7 +141,7 @@ app.post('/api/register', async (req, res) => {
     });
   } catch (err) {
     console.error('Registration error:', err);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
 

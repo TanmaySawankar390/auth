@@ -24,7 +24,7 @@ export default function LandingPage() {
             <div className="flex items-center">
               <Link to="/" className="flex items-center">
                 <Shield className="h-8 w-8 text-indigo-600" />
-                <span className="ml-2 text-xl font-bold text-gray-900">SecureAuth</span>
+                <span className="ml-2 text-xl font-bold text-gray-900">CertificateAuth</span>
               </Link>
             </div>
             <div className="flex items-center">
@@ -82,10 +82,10 @@ export default function LandingPage() {
         <div className="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
           <div className="md:max-w-2xl lg:max-w-3xl">
             <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
-              Enterprise-grade Authentication System
+              Certification Authentication System
             </h1>
             <p className="mt-6 text-xl text-indigo-100 max-w-3xl">
-              Secure your organization with our robust authentication platform featuring
+              Enjoy Certification Approval with our robust authentication platform featuring
               admin approval workflow and comprehensive security measures.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-4">

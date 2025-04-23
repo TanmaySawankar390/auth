@@ -54,29 +54,41 @@ const Register = () => {
     setRecaptchaToken(token);
   };
 
-  const onSubmit = async e => {
+  // This is a simpler fix that bypasses the city object lookup
+const onSubmit = async e => {
     e.preventDefault();
     
     if (!recaptchaToken) {
       setError('Please complete the reCAPTCHA verification');
       return;
     }
-
+  
     setLoading(true);
     try {
-      // Get state and city names for submission
+      // Get state name
       const selectedState = states.find(s => s.isoCode === state);
-      const selectedCity = cities.find(c => c.id === city);
+      const stateName = selectedState?.name || '';
       
+      // Get city name directly from the select element
+      const citySelect = document.getElementById('city');
+      const cityName = citySelect?.options[citySelect.selectedIndex]?.text || '';
+      
+      // Make sure we have a city
+      if (!cityName || cityName === 'Select City') {
+        throw new Error('Please select a valid city');
+      }
+      
+      console.log('Submitting with city:', cityName);
+  
       const res = await axios.post('http://localhost:5000/api/register', {
         name,
         email,
         password,
-        state: selectedState?.name || '',
-        city: selectedCity?.name || '',
+        state: stateName,
+        city: cityName,
         recaptchaToken
       });
-
+  
       setMessage(res.data.message);
       setError('');
       
@@ -96,7 +108,8 @@ const Register = () => {
         navigate('/login');
       }, 2000);
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
+      console.error('Registration error:', err);
+      setError(err.response?.data?.message || err.message || 'Registration failed');
       setMessage('');
     } finally {
       setLoading(false);
@@ -257,7 +270,7 @@ const Register = () => {
             <div>
               <div className="flex justify-center">
                 <ReCAPTCHA
-                  sitekey="6Ldi3R8rAAAAAD1-Fy_2ws-C0RrIo6Bgj6ZERKx1"
+                  sitekey="6LdIRSIrAAAAALcCQPT-QvsdXVhYjnIJs93TBjiB"
                   onChange={onRecaptchaChange}
                 />
               </div>
